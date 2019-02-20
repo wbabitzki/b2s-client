@@ -44,6 +44,9 @@ import Table from './TableComponent.vue';
 export default {
   extends: Table,
   name: "BananaTable",
-  props: ["bananaRecords"]
+  props: ["bananaRecords"],
+  updated() {
+     this.$emit("bananaRecordsShown");
+  }
 };
 </script>

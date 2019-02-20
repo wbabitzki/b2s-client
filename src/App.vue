@@ -1,9 +1,12 @@
 <template>
   <div id="app">
-    <FileUploader @uploaded="onUploaded"/>
-    <BananaTable :bananaRecords="bananaRecords" v-show="showBananaTable"/>
-    <BananaConverter :bananaRecords="bananaRecords" v-show="showBananaTable" @converted="onConverted"/>
-    <SageTable :sageRecords="sageRecords" v-show="showSegaTable"/>
+    <div id="container">
+       <FileUploader @uploaded="onUploaded"/>
+       <BananaTable :bananaRecords="bananaRecords" v-show="showBananaTable" @bananaRecordsShown="scrollToEnd"/>
+       <BananaConverter :bananaRecords="bananaRecords" v-show="showBananaTable" @converted="onConverted"/>
+       <SageTable :sageRecords="sageRecords" v-show="showSegaTable" @sageRecordsShown="scrollToEnd"/>
+       <FileDownloader :sageRecords="sageRecords" v-show="showSegaTable"/>
+    </div>
   </div>
 </template>
 
@@ -12,6 +15,7 @@ import FileUploader from "./components/FileUploader.vue";
 import BananaTable from "./components/BananaTable.vue";
 import BananaConverter from "./components/BananaConverter.vue";
 import SageTable from "./components/SageTable.vue"
+import FileDownloader from "./components/FileDownloader.vue"
 
 export default {
   name: "app",
@@ -19,7 +23,8 @@ export default {
     FileUploader,
     BananaTable,
     BananaConverter,
-    SageTable
+    SageTable,
+    FileDownloader
   },
   data() {
     return {
@@ -37,6 +42,10 @@ export default {
     onConverted(data) {
        this.sageRecords = data;
        this.showSegaTable = this.sageRecords.length > 0  
+    },
+    scrollToEnd() {    	
+      var container = this.$el.querySelector("#container");
+      container.scrollIntoView(false);
     }
   }
 };

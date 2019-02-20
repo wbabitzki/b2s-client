@@ -48,6 +48,9 @@ import Table from "./TableComponent.vue";
 export default {
   extends: Table,
   name: "SageTable",
-  props: ["sageRecords"]
+  props: ["sageRecords"],
+  updated() {
+     this.$emit("sageRecordsShown");
+  }
 };
 </script>
