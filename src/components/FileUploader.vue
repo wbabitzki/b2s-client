@@ -23,7 +23,7 @@ export default {
       formData.append("file", fileList[0]);
       this.label = fileList[0].name;
       axios
-        .post("http://localhost:8080/b2s-rest/rest/banana/readFile", formData, {
+        .post(process.env.VUE_APP_SERVICE + "readFile", formData, {
           headers: {
             "Content-Type": "multipart/form-data"
           }

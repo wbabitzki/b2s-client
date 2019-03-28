@@ -15,7 +15,7 @@ export default {
   methods: {
     onConvert() {
       axios
-        .post("http://localhost:8080/b2s-rest/rest/banana/convert", this.bananaRecords)
+        .post(process.env.VUE_APP_SERVICE + "convert", this.bananaRecords)
         .then(response => {
           this.$emit("converted", response.data);
         })
