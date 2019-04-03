@@ -14,12 +14,12 @@ export default {
   props: ["sageRecords"],
   methods: {
     onDownload(data) {
-      var csvContent=["data:text/csv;charset=utf-8,", Object.keys(data[0]).join(",")];
+      var csvContent=[Object.keys(data[0]).join(",")];
       for( var i in data) {
          csvContent.push(Object.values(data[i]).join(","));
       }
       const link = document.createElement("a");
-      link.setAttribute("href", encodeURI(csvContent.join("\n")));
+      link.setAttribute("href", encodeURI("data:text/csv;charset=utf-8," + csvContent.join("\n")));
       link.setAttribute("download", "export.csv");
       link.click();
     }

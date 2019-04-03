@@ -22,22 +22,22 @@
         </tr>
       </thead>
       <tr v-for="sageRecord in sageRecords" :key="sageRecord.id">
-        <td>{{sageRecord.blg}}</td>
-        <td>{{sageRecord.datum}}</td>
-        <td>{{sageRecord.kto}}</td>
-        <td>{{sageRecord.transactionType}}</td>
-        <td>{{sageRecord.gKto}}</td>
-        <td>{{sageRecord.sId}}</td>
-        <td>{{sageRecord.sIdx}}</td>
-        <td>{{sageRecord.kIdx}}</td>
-        <td>{{sageRecord.bTyp}}</td>
-        <td>{{sageRecord.mTyp}}</td>
-        <td>{{sageRecord.code}}</td>
-        <td>{{sageRecord.netto}}</td>
-        <td>{{sageRecord.steuer}}</td>
-        <td>{{sageRecord.fwBetrag}}</td>
-        <td>{{sageRecord.tx1}}</td>
-        <td>{{sageRecord.tx2}}</td>
+        <td>{{sageRecord.Blg}}</td>
+        <td>{{sageRecord.Datum}}</td>
+        <td>{{sageRecord.Kto}}</td>
+        <td>{{sageRecord.TransactionType}}</td>
+        <td>{{sageRecord.GKto}}</td>
+        <td>{{sageRecord.SId}}</td>
+        <td>{{sageRecord.SIdx}}</td>
+        <td>{{sageRecord.KIdx}}</td>
+        <td>{{sageRecord.BTyp}}</td>
+        <td>{{sageRecord.MTyp}}</td>
+        <td>{{sageRecord.Code}}</td>
+        <td>{{sageRecord.Netto}}</td>
+        <td>{{sageRecord.Steuer}}</td>
+        <td>{{sageRecord.FwBetrag}}</td>
+        <td>{{sageRecord.Tx1}}</td>
+        <td>{{sageRecord.Tx2}}</td>
       </tr>
     </table>
   </div>
