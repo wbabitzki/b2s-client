@@ -2,7 +2,7 @@
   <div id="app">
     <div id="container">
        <FileUploader @uploaded="onUploaded"/>
-       <BananaTable :bananaRecords="bananaRecords" v-show="showBananaTable" @bananaRecordsShown="scrollToEnd"/>
+       <BananaTable :bananaRecords="flattenBananaRecords" v-show="showBananaTable" @bananaRecordsShown="scrollToEnd"/>
        <BananaConverter :bananaRecords="bananaRecords" v-show="showBananaTable" @converted="onConverted"/>
        <SageTable :sageRecords="sageRecords" v-show="showSegaTable" @sageRecordsShown="scrollToEnd"/>
        <FileDownloader :sageRecords="sageRecords" v-show="showSegaTable"/>
@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       bananaRecords: [],
+      flattenBananaRecords: [],
       sageRecords: [],
       showBananaTable: false,
       showSegaTable: false
@@ -37,6 +38,13 @@ export default {
   methods: {
     onUploaded(data) {
       this.bananaRecords = data;
+      data.forEach(transaction => {
+        this.flattenBananaRecords.push(transaction);
+        transaction.composedTransactions.forEach(integratedTransaction => {
+          this.flattenBananaRecords.push(integratedTransaction);
+        });
+      });
+
       this.showBananaTable = this.bananaRecords.length > 0;
     },
     onConverted(data) {

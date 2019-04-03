@@ -28,7 +28,7 @@ export default {
             "Content-Type": "multipart/form-data"
           }
         })
-        .then(response => {
+        .then(response => {          
           this.$emit("uploaded", response.data);
         })
         .catch(error => {
