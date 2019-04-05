@@ -25,7 +25,7 @@
         <td>{{sageRecord.Blg}}</td>
         <td>{{sageRecord.Datum}}</td>
         <td>{{sageRecord.Kto}}</td>
-        <td>{{sageRecord.TransactionType}}</td>
+        <td>{{sageRecord["S/H"]}}</td>
         <td>{{sageRecord.GKto}}</td>
         <td>{{sageRecord.SId}}</td>
         <td>{{sageRecord.SIdx}}</td>
