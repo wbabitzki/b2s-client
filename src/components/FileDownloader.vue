@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import * as axios from "axios";
 import Button from "./ButtonComponent.vue";
 
 export default {
@@ -19,7 +18,7 @@ export default {
          csvContent.push(Object.values(data[i]).join(","));
       }
       const link = document.createElement("a");
-      link.setAttribute("href", encodeURI("data:text/csv;charset=utf-8," + csvContent.join("\n")));
+      link.setAttribute("href", encodeURI("data:text/csv;charset=utf-8," + csvContent.join("\r\n")));
       link.setAttribute("download", "export.csv");
       link.click();
     }
