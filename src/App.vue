@@ -40,7 +40,7 @@ export default {
       this.bananaRecords = data;
       data.forEach(transaction => {
         this.flattenBananaRecords.push(transaction);
-        transaction.composedTransactions.forEach(integratedTransaction => {
+        transaction.integratedTransactions.forEach(integratedTransaction => {
           this.flattenBananaRecords.push(integratedTransaction);
         });
       });
