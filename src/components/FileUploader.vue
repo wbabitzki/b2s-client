@@ -8,35 +8,33 @@
 </template>
 
 <script>
-import * as axios from "axios";
+import * as axios from "axios"
+import rest from "@/api/Rest.js"
 
 export default {
   name: "FileUploader",
+  mixins: [rest],
   data() {
     return {
       label: "Choose a file"
     };
   },
   methods: {
-    filesChange(fileList) {
-      const formData = new FormData();
-      formData.append("file", fileList[0]);
+    filesChange(fileList) {      
       this.label = fileList[0].name;
-      axios
-        .post(process.env.VUE_APP_SERVICE + "readFile", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        })
-        .then(response => {          
-          this.$emit("uploaded", response.data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      this.readFile(fileList[0])
+        .then(readFileResponse => {
+          this.$emit("uploaded", readFileResponse.data);
+          
+          this.validate(readFileResponse.data)
+            .then(validatedResponse => this.$emit("validated", validatedResponse.data))
+            .catch(error => console.log(error));
+        })  
+        .catch(error => console.log(error));     
     }
   }
 };
+
 </script>
 
 <style scoped>

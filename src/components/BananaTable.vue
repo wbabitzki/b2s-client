@@ -22,8 +22,11 @@
           <th>Account</th>
         </tr>
       </thead>
-      <tr v-for="bananaRecord in bananaRecords" :key="bananaRecord.id">
-        <td>{{bananaRecord.document}}</td>
+      <tr v-for="bananaRecord in bananaRecords" :key="bananaRecord.uuid">
+        <td>                   
+          {{bananaRecord.document}}
+          <font-awesome-icon v-if="bananaRecord.violations.length" icon="exclamation-circle" :style="{ color: 'tomato' }"/>
+        </td>
         <td>{{bananaRecord.date}}</td>
         <td>{{bananaRecord.description}}</td>
         <td>{{bananaRecord.debitAccount}}</td>

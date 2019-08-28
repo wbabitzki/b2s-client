@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="container">
-       <FileUploader @uploaded="onUploaded"/>
+       <FileUploader @uploaded="onUploaded" @validated="onValidated"/>
        <BananaTable :bananaRecords="flattenBananaRecords" v-show="showBananaTable" @bananaRecordsShown="scrollToEnd"/>
        <BananaConverter :bananaRecords="bananaRecords" v-show="showBananaTable" @converted="onConverted"/>
        <SageTable :sageRecords="sageRecords" v-show="showSegaTable" @sageRecordsShown="scrollToEnd"/>
@@ -38,22 +38,30 @@ export default {
   methods: {
     onUploaded(data) {
       this.bananaRecords = data;
-      data.forEach(transaction => {
+      this.bananaRecords.forEach(transaction => {
+        this.$set(transaction, 'violations', []);
         this.flattenBananaRecords.push(transaction);
         transaction.integratedTransactions.forEach(integratedTransaction => {
+          this.$set(integratedTransaction, 'violations', []);
           this.flattenBananaRecords.push(integratedTransaction);
         });
       });
-
-      this.showBananaTable = this.bananaRecords.length > 0;
+      this.showBananaTable = this.flattenBananaRecords.length > 0;
+    },
+    onValidated(data) {
+      Object.keys(data).forEach(key => {
+        this.flattenBananaRecords
+          .find(record => record.uuid === key).violations
+          .push(data[key]);       
+      });
     },
     onConverted(data) {
        this.sageRecords = data;
        this.showSegaTable = this.sageRecords.length > 0  
     },
     scrollToEnd() {    	
-      var container = this.$el.querySelector("#container");
-      container.scrollIntoView(false);
+      this.$el.querySelector("#container")
+        .scrollIntoView(false);
     }
   }
 };
