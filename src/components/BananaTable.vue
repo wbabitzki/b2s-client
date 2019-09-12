@@ -25,7 +25,10 @@
       <tr v-for="bananaRecord in bananaRecords" :key="bananaRecord.uuid">
         <td>                   
           {{bananaRecord.document}}
-          <font-awesome-icon v-if="bananaRecord.violations.length" icon="exclamation-circle" :style="{ color: 'tomato' }"/>
+          <v-popover v-if="bananaRecord.violations.length" style="display:inline" trigger="hover">
+            <font-awesome-icon icon="exclamation-circle" :style="{ color: 'tomato' }" class="tooltip-target"/>
+            <ViolationsTooltip slot="popover" :violations="bananaRecord.violations"/>
+          </v-popover>
         </td>
         <td>{{bananaRecord.date}}</td>
         <td>{{bananaRecord.description}}</td>
@@ -44,9 +47,13 @@
 
 <script>
 import Table from './TableComponent.vue';
+import ViolationsTooltip from "./ViolationsTooltip.vue";
 export default {
   extends: Table,
   name: "BananaTable",
+  components: { 
+    ViolationsTooltip
+  },
   props: ["bananaRecords"],
   updated() {
      this.$emit("bananaRecordsShown");

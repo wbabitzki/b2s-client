@@ -52,8 +52,8 @@ export default {
       Object.keys(data).forEach(key => {
         this.flattenBananaRecords
           .find(record => record.uuid === key).violations
-          .push(data[key]);       
-      });
+          .push(...data[key]);       
+      });      
     },
     onConverted(data) {
        this.sageRecords = data;
