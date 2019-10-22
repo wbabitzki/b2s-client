@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import * as axios from "axios"
 import rest from "@/api/Rest.js"
 
 export default {
@@ -20,10 +19,11 @@ export default {
     };
   },
   methods: {
-    filesChange(fileList) {      
+    filesChange(fileList) {     
       this.label = fileList[0].name;
       this.readFile(fileList[0])
         .then(readFileResponse => {
+          this.$emit("startUpload");   
           this.$emit("uploaded", readFileResponse.data);
           
           this.validate(readFileResponse.data)

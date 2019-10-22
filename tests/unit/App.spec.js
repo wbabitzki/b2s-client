@@ -44,3 +44,21 @@ describe('Upload Banana recoreds', () => {
     expect(testee.find({ name: "BananaTable" }).isVisible()).toBeTruthy();
   });
 });
+
+describe('Loading overlay', () => {
+  test('Loading overlay is initially not visible', () => {
+    expect(testee.find(".loading").isVisible()).toBeFalsy();
+  });
+
+  test('Loading overlay is shown by the event "startUpload"', () => {
+    testee.find(FileUploader).vm.$emit("startUpload");
+    expect(testee.find(".loading").isVisible()).toBeTruthy();
+  });
+
+  test('Loading overlay is hidden after validation', () => {
+    testee.setData({isLoading: true})
+    expect(testee.find(".loading").isVisible()).toBeTruthy();
+    testee.find(FileUploader).vm.$emit("validated", []);
+    expect(testee.find(".loading").isVisible()).toBeFalsy();
+  });
+});
