@@ -21,7 +21,7 @@
           <th>Tx2</th>
         </tr>
       </thead>
-      <tr v-for="sageRecord in sageRecords" :key="sageRecord.id">
+      <tr v-for="sageRecord in sageRecords" :key="sageRecord.id" v-bind:style="getBackgroundStyle(sageRecord)">
         <td>{{sageRecord.Blg}}</td>
         <td>{{sageRecord.Datum}}</td>
         <td>{{sageRecord.Kto}}</td>
@@ -49,8 +49,16 @@ export default {
   extends: Table,
   name: "SageTable",
   props: ["sageRecords"],
+  methods: {    
+    getBackgroundStyle(sageRecord) {
+      return this.isEvenReceipt(sageRecord) ? 'background-color: white;' : 'background-color: #f2f2f2;';
+    },
+    isEvenReceipt(sageRecord) {
+      return ((parseInt(sageRecord.Blg) % 2) == 0);
+    }
+  },
   updated() {
-     this.$emit("sageRecordsShown");
+    this.$emit("sageRecordsShown");
   }
 };
 </script>

@@ -10,16 +10,19 @@ table {
   border-collapse: collapse;
   width: 100%;
 }
-td, th {
+td,
+th {
   border: 1px solid #ddd;
   padding: 8px;
 }
-tr:nth-child(even){background-color: #f2f2f2;}
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
 th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
 </style>
