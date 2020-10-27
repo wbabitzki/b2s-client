@@ -2,6 +2,8 @@ import { shallowMount } from '@vue/test-utils';
 import App from '@/App';
 import FileUploader from "@/components/FileUploader.vue";
 
+import axios from "axios";
+
 let testee;
 
 beforeEach(() => {
@@ -50,15 +52,29 @@ describe('Loading overlay', () => {
     expect(testee.find(".loading").isVisible()).toBeFalsy();
   });
 
-  test('Loading overlay is shown by the event "startUpload"', () => {
-    testee.find(FileUploader).vm.$emit("startUpload");
+  test.skip('Loading overlay is shown after request"', () => {
+    axios.interceptors.request.handlers[0].fulfilled({});
     expect(testee.find(".loading").isVisible()).toBeTruthy();
   });
 
-  test('Loading overlay is hidden after validation', () => {
-    testee.setData({isLoading: true})
+  test.skip('Loading overlay is hidden after succfull response', () => {
+    axios.interceptors.request.handlers[0].fulfilled({});
     expect(testee.find(".loading").isVisible()).toBeTruthy();
-    testee.find(FileUploader).vm.$emit("validated", []);
+
+    axios.interceptors.response.handlers[0].fulfilled({});
     expect(testee.find(".loading").isVisible()).toBeFalsy();
   });
+
+  test.skip('Loading overlay is hidden after error response', () => {
+    axios.interceptors.response.handlers[0].rejected({
+      response: {
+        headers:{
+          "error-reason":"error"
+        }
+      }
+    });
+
+    expect(testee.find(".loading").isVisible()).toBeFalsy();
+  });
+  
 });

@@ -4,7 +4,8 @@
       <div class="loading" v-show="isLoading">
         <div class="loading-wheel"></div>
       </div>
-      <FileUploader @uploaded="onUploaded" @validated="onValidated" @startUpload="onStartLoading"/>
+      <div class="error" v-show="showError">{{errorText}}</div>
+      <FileUploader @uploaded="onUploaded" @validated="onValidated"/>
       <BananaTable :bananaRecords="flattenBananaRecords" v-show="showBananaTable" @bananaRecordsShown="scrollToEnd" />
       <BananaConverter :bananaRecords="bananaRecords" v-show="showBananaTable" @converted="onConverted" />
       <SageTable :sageRecords="sageRecords" v-show="showSegaTable" @sageRecordsShown="scrollToEnd" />
@@ -14,6 +15,9 @@
 </template>
 
 <script>
+
+import axios from "axios";
+
 import FileUploader from "./components/FileUploader.vue";
 import BananaTable from "./components/BananaTable.vue";
 import BananaConverter from "./components/BananaConverter.vue";
@@ -36,11 +40,14 @@ export default {
       sageRecords: [],
       showBananaTable: false,
       showSegaTable: false,
-      isLoading: false
+      isLoading: false,
+      showError: false,
+      errorText: "",
     };
   },
   methods: {
     onUploaded(data) {
+      this.flattenBananaRecords = [];
       this.bananaRecords = data;
       this.bananaRecords.forEach(transaction => {
         this.$set(transaction, "violations", []);
@@ -58,18 +65,35 @@ export default {
           .find(record => record.uuid === key)
           .violations.push(...data[key]);
       });
-      this.isLoading = false;  
     },
     onConverted(data) {
       this.sageRecords = data;
       this.showSegaTable = this.sageRecords.length > 0;
     },
-    onStartLoading() {
-      this.isLoading = true;  
-    },
     scrollToEnd() {
       this.$el.querySelector("#container").scrollIntoView(false);
     }
+  },
+  created() {
+    axios.interceptors.request.use((config) => {
+       this.showError = false;
+       this.isLoading = true;  
+      return config;
+    }, (error) => {
+      return Promise.reject(error);
+    });
+
+    axios.interceptors.response.use((response) => {
+        this.isLoading = false;  
+        return response;
+      }, (error) => {
+        var errorText = error.response.headers["error-reason"];
+        this.isLoading = false;  
+        this.showError = true;
+        this.errorText = errorText;
+        console.error(errorText);
+        return Promise.reject(error);
+      });
   }
 };
 </script>
@@ -106,5 +130,19 @@ export default {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.error {
+			border: 1px solid;
+			margin: 10px 0px;
+			padding: 15px 10px 15px 50px;
+			background-repeat: no-repeat;
+			background-position: 10px center;
+}
+
+.error {
+  color: #D8000C;
+  background-color: #FFBABA;
+  background-image: url('/images/error.png');
 }
 </style>

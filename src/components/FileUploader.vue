@@ -8,11 +8,10 @@
 </template>
 
 <script>
-import rest from "@/api/Rest.js"
 
 export default {
   name: "FileUploader",
-  mixins: [rest],
+  inject: ["restRepository"],
   data() {
     return {
       label: "Choose a file"
@@ -21,16 +20,15 @@ export default {
   methods: {
     filesChange(fileList) {     
       this.label = fileList[0].name;
-      this.readFile(fileList[0])
+      this.restRepository.readFile(fileList[0])
         .then(readFileResponse => {
-          this.$emit("startUpload");   
           this.$emit("uploaded", readFileResponse.data);
           
-          this.validate(readFileResponse.data)
+          this.restRepository.validate(readFileResponse.data)
             .then(validatedResponse => this.$emit("validated", validatedResponse.data))
-            .catch(error => console.log(error));
-        })  
-        .catch(error => console.log(error));     
+        }).catch(error => {
+          this.$emit("uploaded", []);          
+        });
     }
   }
 };
