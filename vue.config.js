@@ -1,11 +1,7 @@
 module.exports = {
   configureWebpack: {
     devtool: 'source-map',
-    devServer: {
-      clientLogLevel: 'info',
-      watchOptions: {
-          poll: true
-      }
+    devServer: {     
   }
   },
   publicPath: '/b2s'

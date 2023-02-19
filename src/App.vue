@@ -143,6 +143,6 @@ export default {
 .error {
   color: #D8000C;
   background-color: #FFBABA;
-  background-image: url('/images/error.png');
+  background-image: url('images/error.png');
 }
 </style>
